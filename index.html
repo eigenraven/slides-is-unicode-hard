@@ -35,7 +35,7 @@ To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0
 	<div class="reveal">
 		<div class="slides">
 			<section>
-				<h2>Is Unicode hard?</h1>
+				<h2>Is Unicode hard?</h2>
 				<h4>Or why doesn't backspace always work</h2> <br />
 				<br />
 				<small>Jakub Szewczyk<br /></small>
@@ -47,7 +47,112 @@ To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0
 					</a>.
 				</small>
 			</section>
-			<section>Slide 2</section>
+			<section>
+				<h2>A brief history of Unicode</h2> <br/>
+				<ul>
+					<li>1991 – Unicode Consortium is founded</li>
+					<li>1992 – Unicode Standard 1.0 released</li>
+					<li>2010 - Emoji defined in Unicode 6.0</li>
+					<li>5th July 2018 - Unicode 11.0</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Why should we care?</h2> <br/>
+				<ul>
+					<li class="fragment">�����</li>
+					<li class="fragment">Mojibake (æ–‡å—åŒ–ã)</li>
+					<li class="fragment">The జ్ఞ‌ా crash</li>
+				</ul>
+			</section>
+			<section>
+				<h2>A short demo</h2>
+				<input type="text" value="txtᄀᄀᄀ각ᆨᆨtxt" style="font-size: 24pt" />
+			</section>
+			<section>
+				<h2>Terminology</h2>
+				<ul>
+					<li>Glyph g̈</li>
+					<li class="fragment">Grapheme cluster g̈</li>
+					<li class="fragment">Multi-byte encodings</li>
+					<li class="fragment">Code point (U+10FFFF) g (0067) + ◌̈ (0308)</li>
+					<li class="fragment">Code unit (Hex: 67 cc 88 0a)</li>
+					<li class="fragment">Character?</li>
+				</ul>
+			</section>
+			<section>
+				<h2>The problem</h2>
+				<pre>
+s = "Hello, world!"
+print(s[2..4]) # prints ll
+s = "Tstg̈chr"
+print(s[2..4]) # What will happen?
+				</pre> <br/>
+				<p class="fragment">What should happen?</p>
+			</section>
+			<section>
+				<h2>Solution?</h2>
+				<ul>
+					<li>Strings != Arrays of characters</li>
+					<li class="fragment">Unicode algorithms</li>
+					<li class="fragment">Character classes</li>
+					<li class="fragment">Don't assume:<ul>
+						<li>Single byte characters</li>
+						<li class="fragment">1-to-1 code point-glyph mapping</li>
+						<li class="fragment">The length of a string being the number of characters</li>
+						<li class="fragment">\n or \r\n for newlines</li>
+						<li class="fragment">Strings being equal if bytes are equal</li>
+					</ul>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Backspace</h2>
+				<ul>
+					<li class="fragment">Undo typing?</li>
+					<li class="fragment">IME - Many keys to enter a grapheme</li>
+					<li class="fragment">Unicode® Standard Annex #29 doesn't suggest a particular solution</li>
+					<li class="fragment">But deleting graphemes feels natural</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Hashing Unicode text</h2>
+				<ul>
+					<li class="fragment">Problem: multiple representations for the same string</li>
+				</ul>
+				<p style="align-content: center"><img class="fragment" src="equivalence.png" /></p>
+			</section>
+			<section>
+				<h2>Hashing Unicode text</h2>
+				<p class="fragment">Use Normalized forms - pick C or D</p>
+				<p style="align-content: center"><img class="fragment" src="nfcd.jpg" /></p>
+			</section>
+
+			<section>
+				<h2>Encodings</h2>
+				<ul>
+					<li>UTF-32/UCS-4</li>
+					<li>UTF-16</li>
+					<li>UTF-8</li>
+					<li>UCS-2 (Windows "Unicode")</li>
+				</ul>
+				<a class="fragment" href="http://utf8everywhere.org/">http://utf8everywhere.org/</a>
+			</section>
+
+			<section>
+				<h2>Security</h2>
+				<p class="fragment">
+						safe‮fig.exe
+				</p>
+				<pre class="fragment">
+73 61 66 65 <b style="color:yellow">e2 80 ae</b> 66  69 67 2e 65 78 65 |safe...fig.exe|
+				</pre>
+			</section>
+
+			<section>
+				<h1>⪋⪌</h1>
+				Refer to <a href="https://unicode.org">unicode.org</a> for more details
+			</section>
 		</div>
 	</div>
 
